@@ -1,0 +1,44 @@
+h1 {
+  color: navy;
+  background-color: lightyellow;
+  border: 1px solid black;
+}
+
+img {
+  width: 200px;
+  height: 200px;
+  margin-right:50px;
+  border: 1px solid black;
+}
+
+ /* Create two unequal columns that floats next to each other */
+ .column {
+  float: left;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+  border: 1px solid black;
+}
+
+.h2 {
+  border-radius: 25px;
+  font-size: 2.5em;
+}
+
+.left {
+  width: 25%;
+}
+
+.right {
+  width: 75%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.img1 {
+
+}

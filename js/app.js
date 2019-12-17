@@ -1,0 +1,115 @@
+'use strict';
+
+console.log('js linked!');
+
+var imageElements = document.getElementsByClassName('productImage');
+var productIndex1 = 0;
+var productIndex2 = 1;
+var productIndex3 = 2;
+
+// bus product constructor
+
+var allProducts = [];
+
+function Product(name, imageUrl) {
+  this.name = name;
+  this.imageUrl = imageUrl;
+  this.timesClicked = 0;
+  this.imageViews = 0;
+  allProducts.push(this);
+}
+
+// actually create our products
+
+new Product('bag', 'image/bag.jpg');
+new Product('banana', 'image/banana.jpg');
+new Product('bathroom', 'image/bathroom.jpg');
+new Product('boots', 'image/boots.jpg');
+new Product('breakfast', 'image/breakfast.jpg');
+new Product('bubblegum', 'image/bubblegum.jpg');
+new Product('chair', 'image/chair.jpg');
+new Product('cthulhu', 'image/cthulhu.jpg');
+new Product('dog-stick', 'image/dog-duck.jpg');
+new Product('dragon', 'image/dragon.jpg');
+new Product('pen', 'image/pen.jpg');
+new Product('pet-sweep', 'image/pet-sweep.jpg');
+new Product('scissors', 'image/scissors.jpg');
+new Product('shark', 'image/shark.jpg');
+new Product('sweep', 'image/sweep.jpg');
+new Product('tauntaun', 'image/tauntaun.jpg');
+new Product('unicorn', 'image/unicorn.jpg');
+new Product('usb', 'image/usb.gif');
+new Product('water-can', 'image/water-can.jpg');
+new Product('wine-glass', 'image/wine-glass.jpg');
+
+var totalClicks = 0;
+// create a function to store clicks
+function imageWasClicked(event) {
+
+  // console.log('an image was clicked - ' + totalClicks + ' times.');
+  totalClicks++;
+  console.log(totalClicks);
+  if(event.srcElement.id === 'img1') {
+    allProducts[productIndex1].timesClicked++;
+  } else if (event.srcElement.id === 'img2') {
+    allProducts[productIndex2].timesClicked++;
+  } else if (event.srcElement.id === 'img3') {
+    allProducts[productIndex3].timesClicked++;
+  }
+
+  // pick 3 random products to display
+  var nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
+  while((nextProductIndex1 === productIndex1) || (nextProductIndex1 === productIndex2)) {
+    nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
+  }
+  var nextProductIndex2 = Math.floor(Math.random() * allProducts.length);
+  while((nextProductIndex2 === productIndex1) || (nextProductIndex2 === productIndex2) || (nextProductIndex2 === nextProductIndex1)) {
+    nextProductIndex2 = Math.floor(Math.random() * allProducts.length);
+  }
+  var nextProductIndex3 = Math.floor(Math.random() * allProducts.length);
+  while((nextProductIndex3 === productIndex1) || (nextProductIndex3 === productIndex2) || (nextProductIndex3 === productIndex3) || (nextProductIndex3 === nextProductIndex1) || (nextProductIndex3 === nextProductIndex2)) {
+    nextProductIndex3 = Math.floor(Math.random() * allProducts.length);
+  }
+
+  productIndex1 = nextProductIndex1;
+  productIndex2 = nextProductIndex2;
+  productIndex3 = nextProductIndex3;
+
+  // display the products
+
+  imageElements[0].src = allProducts[productIndex1].imageUrl; allProducts[productIndex1].imageViews++;
+  imageElements[1].src = allProducts[productIndex2].imageUrl; allProducts[productIndex2].imageViews++;
+  imageElements[2].src = allProducts[productIndex3].imageUrl; allProducts[productIndex3].imageViews++;
+
+  if(totalClicks >= 25) {
+    console.log('we are in the clicks');
+    // we made it to 25 clicks
+    var footerEl = document.getElementsByTagName('footer')[0];
+    // loop through all the products and display how many times each one was picked
+    footerEl.textContent = 'You picked things!';
+    for (var i = 0; i < imageElements.length; i++) {
+      imageElements[i].removeEventListener('click', imageWasClicked);
+    }
+    makeList();
+  }
+}
+
+// set up our images to call that function when there is a click
+// what element, which event, what to do
+
+for (var i = 0; i < imageElements.length; i++) {
+  imageElements[i].addEventListener('click', imageWasClicked);
+}
+
+function makeList() {
+// Run a function called makeList() to place the results on the HTML page
+
+  var listContainer = document.getElementsByTagName('ul')[0];
+  for (var i = 0; i < allProducts.length; i ++ ) {
+    // console.log (i);
+    var listItem = document.createElement('li');
+    listItem.textContent = `${allProducts[i].name}: ${allProducts[i].timesClicked} votes, ${allProducts[i].imageViews} views.` ;
+    listContainer.appendChild(listItem);
+  }
+}
+
