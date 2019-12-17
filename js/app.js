@@ -7,7 +7,6 @@ var productIndex1 = 0;
 var productIndex2 = 1;
 var productIndex3 = 2;
 
-
 // bus product constructor
 
 var allProducts = [];
@@ -42,18 +41,23 @@ new Product('usb', 'image/usb.gif');
 new Product('water-can', 'image/water-can.jpg');
 new Product('wine-glass', 'image/wine-glass.jpg');
 
+
+
 var totalClicks = 0;
 // create a function to store clicks
 function imageWasClicked(event) {
-  console.log('an image was clicked');
+
+  // console.log('an image was clicked - ' + totalClicks + ' times.');
   totalClicks++;
-  if(event.srcElement.id === '1') {
+  console.log(totalClicks);
+  if(event.srcElement.id === 'img1') {
     allProducts[productIndex1].timesClicked++;
-  } else if (event.srcElement.id === '2') {
+  } else if (event.srcElement.id === 'img2') {
     allProducts[productIndex2].timesClicked++;
-  } else if (event.srcElement.id === '3') {
+  } else if (event.srcElement.id === 'img3') {
     allProducts[productIndex3].timesClicked++;
   }
+
 
   // pick 3 random products to display
   var nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
@@ -65,26 +69,28 @@ function imageWasClicked(event) {
     nextProductIndex2 = Math.floor(Math.random() * allProducts.length);
   }
   var nextProductIndex3 = Math.floor(Math.random() * allProducts.length);
-  while((nextProductIndex3 === productIndex1) || (nextProductIndex3 === productIndex3) || (nextProductIndex3 === nextProductIndex1)) {
-    nextProductIndex2 = Math.floor(Math.random() * allProducts.length);
+  while((nextProductIndex3 === productIndex1) || (nextProductIndex3 === productIndex2) || (nextProductIndex3 === productIndex3) || (nextProductIndex3 === nextProductIndex1) || (nextProductIndex3 === nextProductIndex2)) {
+    nextProductIndex3 = Math.floor(Math.random() * allProducts.length);
   }
 
   productIndex1 = nextProductIndex1;
   productIndex2 = nextProductIndex2;
   productIndex3 = nextProductIndex3;
 
-
-
-  // display the goats
+  // display the products
   imageElements[0].src = allProducts[productIndex1].imageUrl;
   imageElements[1].src = allProducts[productIndex2].imageUrl;
   imageElements[2].src = allProducts[productIndex3].imageUrl;
 
   if(totalClicks >= 5) {
-    // we made it to 5 clicks
+    console.log('we are in the clicks');
+    // we made it to 25 clicks
     var footerEl = document.getElementsByTagName('footer')[0];
-    // loop through all the goats and display how many times each one was picked
+    // loop through all the products and display how many times each one was picked
     footerEl.textContent = 'You picked things!';
+    for (var i = 0; i < imageElements.length; i++) {
+      imageElements[i].removeEventListener('click', imageWasClicked);
+    }
   }
 }
 
@@ -93,4 +99,5 @@ function imageWasClicked(event) {
 
 for (var i = 0; i < imageElements.length; i++) {
   imageElements[i].addEventListener('click', imageWasClicked);
+
 }
