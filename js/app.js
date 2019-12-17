@@ -15,6 +15,7 @@ function Product(name, imageUrl) {
   this.name = name;
   this.imageUrl = imageUrl;
   this.timesClicked = 0;
+  this.imageViews = 0;
   allProducts.push(this);
 }
 
@@ -41,8 +42,6 @@ new Product('usb', 'image/usb.gif');
 new Product('water-can', 'image/water-can.jpg');
 new Product('wine-glass', 'image/wine-glass.jpg');
 
-
-
 var totalClicks = 0;
 // create a function to store clicks
 function imageWasClicked(event) {
@@ -57,7 +56,6 @@ function imageWasClicked(event) {
   } else if (event.srcElement.id === 'img3') {
     allProducts[productIndex3].timesClicked++;
   }
-
 
   // pick 3 random products to display
   var nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
@@ -78,11 +76,12 @@ function imageWasClicked(event) {
   productIndex3 = nextProductIndex3;
 
   // display the products
-  imageElements[0].src = allProducts[productIndex1].imageUrl;
-  imageElements[1].src = allProducts[productIndex2].imageUrl;
-  imageElements[2].src = allProducts[productIndex3].imageUrl;
 
-  if(totalClicks >= 5) {
+  imageElements[0].src = allProducts[productIndex1].imageUrl; allProducts[productIndex1].imageViews++;
+  imageElements[1].src = allProducts[productIndex2].imageUrl; allProducts[productIndex2].imageViews++;
+  imageElements[2].src = allProducts[productIndex3].imageUrl; allProducts[productIndex3].imageViews++;
+
+  if(totalClicks >= 25) {
     console.log('we are in the clicks');
     // we made it to 25 clicks
     var footerEl = document.getElementsByTagName('footer')[0];
@@ -91,6 +90,7 @@ function imageWasClicked(event) {
     for (var i = 0; i < imageElements.length; i++) {
       imageElements[i].removeEventListener('click', imageWasClicked);
     }
+    makeList();
   }
 }
 
@@ -99,5 +99,17 @@ function imageWasClicked(event) {
 
 for (var i = 0; i < imageElements.length; i++) {
   imageElements[i].addEventListener('click', imageWasClicked);
-
 }
+
+function makeList() {
+// Run a function called makeList() to place the results on the HTML page
+
+  var listContainer = document.getElementsByTagName('ul')[0];
+  for (var i = 0; i < allProducts.length; i ++ ) {
+    // console.log (i);
+    var listItem = document.createElement('li');
+    listItem.textContent = `${allProducts[i].name}: ${allProducts[i].timesClicked} votes, ${allProducts[i].imageViews} views.` ;
+    listContainer.appendChild(listItem);
+  }
+}
+
