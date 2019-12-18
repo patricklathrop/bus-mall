@@ -12,7 +12,7 @@ var productIndex3 = 2;
 
 var allProducts = [];
 
-// default parmenter: you don't need to know this yet, but it is very cool
+// this funtion adds new items to the end of an array with a unique 'trick' shared by Michelle during class - adds two  variables with number type equal to zero '0'//
 function Product(name, extension = 'jpg') {
   this.name = name;
   this.imageUrl = `image/${name}.${extension}`;
@@ -69,7 +69,7 @@ function imageWasClicked(event) {
   allProducts[productIndex2].imageViews++;
   allProducts[productIndex3].imageViews++;
 
-  // pick 3 random products to display
+  // pick 3 random products to display and compare to avoid repetitiveness
   var nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
   while(!checkDuplication(nextProductIndex1)) {
     nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
