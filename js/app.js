@@ -1,4 +1,5 @@
 'use strict';
+// initial code setup assisted by Michelle Ferreirae with in class demo
 
 console.log('js linked!');
 
@@ -39,15 +40,21 @@ new Product('shark');
 new Product('sweep');
 new Product('tauntaun');
 new Product('unicorn');
-new Product('usb',`gif`);
+new Product('usb','gif');
 new Product('water-can');
 new Product('wine-glass');
 
 var totalClicks = 0;
 // create a function to store clicks
-function imageWasClicked(event) {
 
-  // console.log('an image was clicked - ' + totalClicks + ' times.');
+function imageWasClicked(event) {
+  function checkDuplication(product) {
+    if (product === productIndex1 || product === productIndex2 || product === productIndex3) {
+      return false;
+    }
+    return true;
+  }
+
   totalClicks++;
   console.log(totalClicks);
   if(event.srcElement.id === 'img1') {
@@ -58,37 +65,41 @@ function imageWasClicked(event) {
     allProducts[productIndex3].timesClicked++;
   }
 
+  allProducts[productIndex1].imageViews++;
+  allProducts[productIndex2].imageViews++;
+  allProducts[productIndex3].imageViews++;
+
   // pick 3 random products to display
   var nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
-  while((nextProductIndex1 === productIndex1) || (nextProductIndex1 === productIndex2) || (nextProductIndex1 === productIndex3)) {
+  while(!checkDuplication(nextProductIndex1)) {
     nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
   }
   var nextProductIndex2 = Math.floor(Math.random() * allProducts.length);
-  while((nextProductIndex2 === productIndex1) || (nextProductIndex2 === productIndex2) || (nextProductIndex2 === nextProductIndex3)) {
+  while(!checkDuplication(nextProductIndex2) || (nextProductIndex2 === nextProductIndex1)) {
     nextProductIndex2 = Math.floor(Math.random() * allProducts.length);
   }
   var nextProductIndex3 = Math.floor(Math.random() * allProducts.length);
-  while((nextProductIndex3 === productIndex1) || (nextProductIndex3 === productIndex2) || (nextProductIndex3 === productIndex3) || (nextProductIndex3 === nextProductIndex1) || (nextProductIndex3 === nextProductIndex2)) {
+  while(!checkDuplication(nextProductIndex3) || (nextProductIndex3 === nextProductIndex2) || nextProductIndex3 === nextProductIndex1) {
     nextProductIndex3 = Math.floor(Math.random() * allProducts.length);
   }
+
   productIndex1 = nextProductIndex1;
   productIndex2 = nextProductIndex2;
   productIndex3 = nextProductIndex3;
 
   // display the products
 
-  imageElements[0].src = allProducts[productIndex1].imageUrl; allProducts[productIndex1].imageViews++;
-  imageElements[1].src = allProducts[productIndex2].imageUrl; allProducts[productIndex2].imageViews++;
-  imageElements[2].src = allProducts[productIndex3].imageUrl; allProducts[productIndex3].imageViews++;
+  imageElements[0].src = allProducts[productIndex1].imageUrl;
+  imageElements[1].src = allProducts[productIndex2].imageUrl;
+  imageElements[2].src = allProducts[productIndex3].imageUrl;
 
   if(totalClicks >= 25) {
-    console.log('we are in the clicks');
-    // we made it to 25 clicks
-    // go through each image element and remove its event listener
+
     for (var i = 0; i < imageElements.length; i++) {
       imageElements[i].removeEventListener('click', imageWasClicked);
     }
-    makeList();
+
+    makeChart();
   }
 }
 // set up our images to call that function when there is a click
@@ -97,16 +108,53 @@ function imageWasClicked(event) {
 for (var i = 0; i < imageElements.length; i++) {
   imageElements[i].addEventListener('click', imageWasClicked);
 }
-function makeList() {
-// Run a function called makeList() to place the results on the HTML page
-  // grab the first ul on the page
-  var listContainer = document.getElementsByTagName('ul')[0];
-  // loop through all the products
-  for (var i = 0; i < allProducts.length; i ++ ) {
-    // create an element to hold that product's information
-    var listItem = document.createElement('li');
-    listItem.textContent = `${allProducts[i].name}: ${allProducts[i].timesClicked} votes, ${allProducts[i].imageViews} views.` ;
-    listContainer.appendChild(listItem);
-  }
-}
 
+// // // // Fun with charts // // //
+function makeChart(){
+
+  var label = [], views = [], select = [];
+  for (i in allProducts) {
+    label.push(allProducts[i].name);
+    views.push(allProducts[i].imageViews);
+    select.push(allProducts[i].timesClicked);
+  }
+
+  console.log(label);
+  console.log(views);
+  console.log(select);
+
+  var ctx = document.getElementById('myChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: label,
+      datasets: [{
+        label: '# of votes',
+        data: select,
+        backgroundColor: 'yellow',
+        borderColor: 'black',
+        borderWidth: 1.0,
+        barPercentage: 1.0
+      }, {
+        label: '# of views',
+        data: views,
+        backgroundColor: 'blue',
+        borderColor: 'red',
+        borderWidth: 1.0,
+        borderPercentage: 1.0
+      }]
+    },
+
+    option: {
+      scales: {
+        xAxis: [{ stacked: true }],
+        yAxis: [{
+          stacked: true,
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
