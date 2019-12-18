@@ -12,30 +12,23 @@
 <header>
   <h1> <img id="bus" src="logo/zbus-mall1.png" />  Header Text goes here </h1>
    
-  <h1 style="color:blue;">
-
 </header>
 <main>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    } 
-  </style>
     </head>
 
     <body>
     
     <!-- On left side of page set results after 25 selections/ right colum for displaying pictures 3 at a time -->
     <div class="row">
-      <div class="column left" style="background-color:#aaa;">
+      <div class="column_left" style="background-color:#aaa;">
         <h2>Item Results</h2>
         <ul>
           <li>  </li>
 
         </ul>
       </div>
-      <div class="column right" style="background-color:#bbb;">
+      <div class="column_right" style="background-color:#bbb;">
         <h2>Select your favorite Bus Mall items from these pictures</h2>
         <!-- 3 images set here - will sort through 20 images -->
         <img class= "productImage" id="img1" src="image/bag.jpg" />
@@ -44,17 +37,13 @@
       </div>
     </div>
 
-     
-
-
-<!-- Bottom of page set company purpose for page -->
-
 </main>
 
 <footer>
-I want to put something here
+  <canvas id="myChart"></canvas>
 </footer>
 
- <script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
