@@ -8,4 +8,4 @@ Setup the basic HTML and CSS.  The js code apprears to be working properly after
 Charts are working now and cleaned up the other js code.  Needs a little work on the structure and style still.
 
 ## Day 3
-Working on local staorage
+Working on local storage
