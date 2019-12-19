@@ -12,37 +12,47 @@ var productIndex3 = 2;
 
 var allProducts = [];
 
-// default parmenter: you don't need to know this yet, but it is very cool
-function Product(name, extension = 'jpg') {
+// this funtion adds new items to the end of an array with a unique 'trick' shared by Michelle during class - adds two  variables with number type equal to zero '0'//
+function Product(name, extension = 'jpg', timesClicked = 0, imageViews = 0) {
   this.name = name;
   this.imageUrl = `image/${name}.${extension}`;
-  this.timesClicked = 0;
-  this.imageViews = 0;
+  this.timesClicked = timesClicked;
+  this.imageViews = imageViews;
   allProducts.push(this);
 }
 
-// actually create our products
+// create our products from local storage
 
-new Product('bag');
-new Product('banana');
-new Product('bathroom');
-new Product('boots');
-new Product('breakfast');
-new Product('bubblegum');
-new Product('chair');
-new Product('cthulhu');
-new Product('dog-duck');
-new Product('dragon');
-new Product('pen');
-new Product('pet-sweep');
-new Product('scissors');
-new Product('shark');
-new Product('sweep');
-new Product('tauntaun');
-new Product('unicorn');
-new Product('usb','gif');
-new Product('water-can');
-new Product('wine-glass');
+var savedTesterString=localStorage.getItem('savedTester');
+if (savedTesterString) {
+  var arrayOfNotTester = JSON.parse(savedTesterString);
+  for (var i = 0; i < arrayOfNotTester.length; i++) {new Product(arrayOfNotTester[i].name, arrayOfNotTester[i].imageUrl.slice(arrayOfNotTester[i].imageUrl.length-3), arrayOfNotTester[i].timesClicked, arrayOfNotTester[i].imageViews);
+  }
+} else {
+
+  // actually create our products from scratch
+
+  new Product('bag');
+  new Product('banana');
+  new Product('bathroom');
+  new Product('boots');
+  new Product('breakfast');
+  new Product('bubblegum');
+  new Product('chair');
+  new Product('cthulhu');
+  new Product('dog-duck');
+  new Product('dragon');
+  new Product('pen');
+  new Product('pet-sweep');
+  new Product('scissors');
+  new Product('shark');
+  new Product('sweep');
+  new Product('tauntaun');
+  new Product('unicorn');
+  new Product('usb','gif');
+  new Product('water-can');
+  new Product('wine-glass');
+}
 
 var totalClicks = 0;
 // create a function to store clicks
@@ -69,7 +79,7 @@ function imageWasClicked(event) {
   allProducts[productIndex2].imageViews++;
   allProducts[productIndex3].imageViews++;
 
-  // pick 3 random products to display
+  // pick 3 random products to display and compare to avoid repetitiveness
   var nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
   while(!checkDuplication(nextProductIndex1)) {
     nextProductIndex1 = Math.floor(Math.random() * allProducts.length);
@@ -95,6 +105,8 @@ function imageWasClicked(event) {
 
   if(totalClicks >= 25) {
 
+    localStorage.setItem('savedTester', JSON.stringify(allProducts));
+
     for (var i = 0; i < imageElements.length; i++) {
       imageElements[i].removeEventListener('click', imageWasClicked);
     }
@@ -108,6 +120,7 @@ function imageWasClicked(event) {
 for (var i = 0; i < imageElements.length; i++) {
   imageElements[i].addEventListener('click', imageWasClicked);
 }
+// var prodList = ' ';
 
 // // // // Fun with charts // // //
 function makeChart(){
@@ -119,9 +132,11 @@ function makeChart(){
     select.push(allProducts[i].timesClicked);
   }
 
-  console.log(label);
-  console.log(views);
-  console.log(select);
+
+  // console.log(label);
+  // console.log(views);
+  // console.log(select);
+
 
   var ctx = document.getElementById('myChart').getContext('2d');
   new Chart(ctx, {
