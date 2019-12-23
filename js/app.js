@@ -21,7 +21,7 @@ function Product(name, extension = 'jpg', timesClicked = 0, imageViews = 0) {
   allProducts.push(this);
 }
 
-// create our products from local storage
+// create our products from local storage (this bit of code magic is based off the in-class demo of GOATS/ Gina assisted in placement and logic/ Michelle assisted with the crescendo of code magic with 'slice')  stretch goal - add click event button to [localStorage.clear ()]
 
 var savedTesterString=localStorage.getItem('savedTester');
 if (savedTesterString) {
@@ -29,6 +29,8 @@ if (savedTesterString) {
   for (var i = 0; i < arrayOfNotTester.length; i++) {new Product(arrayOfNotTester[i].name, arrayOfNotTester[i].imageUrl.slice(arrayOfNotTester[i].imageUrl.length-3), arrayOfNotTester[i].timesClicked, arrayOfNotTester[i].imageViews);
   }
 } else {
+
+
 
   // actually create our products from scratch
 
@@ -132,11 +134,9 @@ function makeChart(){
     select.push(allProducts[i].timesClicked);
   }
 
-
   // console.log(label);
   // console.log(views);
   // console.log(select);
-
 
   var ctx = document.getElementById('myChart').getContext('2d');
   new Chart(ctx, {
