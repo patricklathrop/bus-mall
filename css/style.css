@@ -5,44 +5,37 @@ header {
 }
 
 img {
+  float: left; 
   width: 200px;
   height: 200px;
   margin-right:50px;
   border: 1px solid black;
 }
 
- /* Create two unequal columns that floats next to each other */
- .column {
-  float: left;
-  padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
-  border: 1px solid black;
-}
-
-.h2 {
+h1 {
+  text-align: center;
+  height: 150px;
   border-radius: 25px;
-  font-size: 2.5em;
+  font-size: 100px;
+  padding: 35px
 }
 
-.left {
-  width: 25%;
+h2 {
+  text-align: center;
+  height: 50px;
+  padding: 25px;
+  border-style: solid;
+  border-radius: 25px;
+  font-size: 40px;
+  font-weight: bold;
+  background-color:#bbb;
 }
 
-.right {
-  width: 75%;
-}
+.productImage {
+  float: center; 
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
 }
 
 footer {     
   width: 1000px;
 }
-
-*{
-  box-sizing: border-box;
-} 

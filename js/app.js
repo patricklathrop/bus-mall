@@ -1,5 +1,5 @@
 'use strict';
-// initial code setup assisted by Michelle Ferreirae with in class demo
+// initial code setup assisted by Michelle Ferreirae with in-class demo
 
 console.log('js linked!');
 
@@ -21,7 +21,8 @@ function Product(name, extension = 'jpg', timesClicked = 0, imageViews = 0) {
   allProducts.push(this);
 }
 
-// create our products from local storage (this bit of code magic is based off the in-class demo of GOATS/ Gina assisted in placement and logic/ Michelle assisted with the crescendo of code magic with 'slice')  stretch goal - add click event button to [localStorage.clear ()]
+// create our products from local storage (this code  is based off the in-class demo of GOATS/ Gina assisted in placement and logic/ Michelle assisted with the crescendo of code magic with 'slice') //
+// stretch goal - add click event button to [localStorage.clear ()] //
 
 var savedTesterString=localStorage.getItem('savedTester');
 if (savedTesterString) {
@@ -29,7 +30,6 @@ if (savedTesterString) {
   for (var i = 0; i < arrayOfNotTester.length; i++) {new Product(arrayOfNotTester[i].name, arrayOfNotTester[i].imageUrl.slice(arrayOfNotTester[i].imageUrl.length-3), arrayOfNotTester[i].timesClicked, arrayOfNotTester[i].imageViews);
   }
 } else {
-
 
 
   // actually create our products from scratch
@@ -105,6 +105,7 @@ function imageWasClicked(event) {
   imageElements[1].src = allProducts[productIndex2].imageUrl;
   imageElements[2].src = allProducts[productIndex3].imageUrl;
 
+  // totalClicks controls how many sets of pictures are selected //
   if(totalClicks >= 25) {
 
     localStorage.setItem('savedTester', JSON.stringify(allProducts));
@@ -113,6 +114,7 @@ function imageWasClicked(event) {
       imageElements[i].removeEventListener('click', imageWasClicked);
     }
 
+    // calls makeChart function
     makeChart();
   }
 }
@@ -122,9 +124,9 @@ function imageWasClicked(event) {
 for (var i = 0; i < imageElements.length; i++) {
   imageElements[i].addEventListener('click', imageWasClicked);
 }
-// var prodList = ' ';
 
 // // // // Fun with charts // // //
+// this section sets up the charts
 function makeChart(){
 
   var label = [], views = [], select = [];
@@ -134,10 +136,7 @@ function makeChart(){
     select.push(allProducts[i].timesClicked);
   }
 
-  // console.log(label);
-  // console.log(views);
-  // console.log(select);
-
+// chart design
   var ctx = document.getElementById('myChart').getContext('2d');
   new Chart(ctx, {
     type: 'bar',
